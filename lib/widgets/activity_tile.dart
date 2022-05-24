@@ -25,7 +25,7 @@ class ActivityTile extends StatelessWidget {
           ),
         ),
         onDismissed: (direction) async {
-          ActivityDatabase.instance.deleteActivity(workoutNotifier, activityNotifiter, activity.id!);
+          ActivityDatabase.instance.deleteActivity(workoutNotifier, activityNotifiter, activity);
         },
         direction: DismissDirection.endToStart,
         child: Container(

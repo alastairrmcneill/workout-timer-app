@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Workout newWorkout = Workout(
       name: _workoutName,
       activityCount: 0,
+      activityTime: 0,
     );
 
     await WorkoutDatabase.instance.create(workoutNotifier, newWorkout);

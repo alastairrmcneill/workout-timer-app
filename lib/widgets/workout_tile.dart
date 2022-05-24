@@ -41,6 +41,7 @@ class WorkoutTile extends StatelessWidget {
               children: [
                 Text(workout.name),
                 Text(workout.activityCount.toString()),
+                Text(workout.activityTime.toString()),
               ],
             ),
           ),

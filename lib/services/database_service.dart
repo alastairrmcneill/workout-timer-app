@@ -31,7 +31,8 @@ class WorkoutDatabase {
     final textType = 'TEXT NOT NULL';
     final integerType = 'INTEGER NOT NULL';
 
-    await db.execute("CREATE TABLE $tableWorkouts (${WorkoutFields.id} ${idType}, ${WorkoutFields.name} ${textType}, ${WorkoutFields.activityCount} ${integerType})");
+    await db.execute(
+        "CREATE TABLE $tableWorkouts (${WorkoutFields.id} ${idType}, ${WorkoutFields.name} ${textType}, ${WorkoutFields.activityCount} ${integerType}, ${WorkoutFields.activityTime} ${integerType})");
   }
 
   Future close() async {
@@ -42,6 +43,7 @@ class WorkoutDatabase {
   // Create
   Future create(WorkoutNotifier workoutNotifier, Workout workout) async {
     final db = await instance.database;
+    print(db);
     final uid = await db.insert(tableWorkouts, workout.toJSON());
     readAllWorkouts(workoutNotifier);
   }
@@ -59,11 +61,14 @@ class WorkoutDatabase {
   }
 
   // Update
-  Future updateWorkoutActivityCount(WorkoutNotifier workoutNotifier, int updateAmount) async {
+  Future updateWorkoutWithActivity(WorkoutNotifier workoutNotifier, {required int activityCount, required int activityTime}) async {
     final db = await instance.database;
     Workout oldWorkout = workoutNotifier.currentWorkout!;
 
-    Workout newWorkout = oldWorkout.copy(activityCount: oldWorkout.activityCount + updateAmount);
+    Workout newWorkout = oldWorkout.copy(
+      activityCount: oldWorkout.activityCount + activityCount,
+      activityTime: oldWorkout.activityTime + activityTime,
+    );
 
     await db.update(
       tableWorkouts,
@@ -128,7 +133,7 @@ class ActivityDatabase {
     final db = await instance.database;
     final id = await db.insert(tableActivites, activity.toJSON());
 
-    await WorkoutDatabase.instance.updateWorkoutActivityCount(workoutNotifier, 1);
+    await WorkoutDatabase.instance.updateWorkoutWithActivity(workoutNotifier, activityCount: 1, activityTime: activity.time);
     readAllActivitiesFromWorkout(activityNotifiter, activity.workoutId);
   }
 
@@ -155,16 +160,16 @@ class ActivityDatabase {
   // Update
 
   // Delete
-  Future deleteActivity(WorkoutNotifier workoutNotifier, ActivityNotifiter activityNotifiter, int id) async {
+  Future deleteActivity(WorkoutNotifier workoutNotifier, ActivityNotifiter activityNotifiter, Activity activity) async {
     final db = await instance.database;
 
     await db.delete(
       tableActivites,
       where: '${ActivityFields.id} = ?',
-      whereArgs: [id],
+      whereArgs: [activity.id!],
     );
 
-    WorkoutDatabase.instance.updateWorkoutActivityCount(workoutNotifier, -1);
+    WorkoutDatabase.instance.updateWorkoutWithActivity(workoutNotifier, activityCount: -1, activityTime: -1 * (activity.time));
     readAllActivitiesFromWorkout(activityNotifiter, workoutNotifier.currentWorkout!.id!);
   }
 }
