@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:workout_timer_app/app.dart';
 import 'package:workout_timer_app/notifiers/notifiers.dart';
 
 import 'screens/screens.dart';
@@ -26,11 +27,7 @@ class MyApp extends StatelessWidget {
           create: (_) => SettingsNotifier(),
         )
       ],
-      child: const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Workout Timer',
-        home: HomeScreen(),
-      ),
+      child: const App(),
     );
   }
 }

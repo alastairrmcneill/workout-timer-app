@@ -21,7 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     WorkoutNotifier workoutNotifier = Provider.of<WorkoutNotifier>(context, listen: false);
-    SettingsNotifier settingsNotifier = Provider.of<SettingsNotifier>(context, listen: false);
     WorkoutDatabase.instance.readAllWorkouts(workoutNotifier);
   }
 
@@ -33,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     await WorkoutDatabase.instance.create(workoutNotifier, newWorkout);
-    Navigator.of(context).pop();
+    Navigator.pop(context);
     await WorkoutDatabase.instance.readAllWorkouts(workoutNotifier);
   }
 
@@ -78,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: (settingsNotifier.darkMode == null) ? const Text('Null') : Text('${settingsNotifier.darkMode}'),
+        title: const Text('Workout Timer'),
         leading: IconButton(
           onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SettingsScreen())),
           icon: const Icon(Icons.settings_outlined),
