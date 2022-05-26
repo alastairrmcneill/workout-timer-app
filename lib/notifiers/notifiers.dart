@@ -36,3 +36,21 @@ class ActivityNotifiter extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+class SettingsNotifier extends ChangeNotifier {
+  bool? _darkMode;
+  bool? _audioMode;
+
+  bool? get darkMode => _darkMode;
+  bool? get audioMode => _audioMode;
+
+  set setDarkMode(bool darkMode) {
+    _darkMode = darkMode;
+    notifyListeners();
+  }
+
+  set setAudioMode(bool audioMode) {
+    _audioMode = audioMode;
+    notifyListeners();
+  }
+}

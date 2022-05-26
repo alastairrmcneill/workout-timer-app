@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_timer_app/models/models.dart';
 import 'package:workout_timer_app/notifiers/notifiers.dart';
+import 'package:workout_timer_app/screens/screens.dart';
 import 'package:workout_timer_app/services/database_service.dart';
 import 'package:workout_timer_app/widgets/widgets.dart';
 
@@ -28,7 +29,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     ActivityDatabase.instance.readAllActivitiesFromWorkout(activityNotifiter, workoutNotifier.currentWorkout!.id!);
   }
 
-  void createActivity(WorkoutNotifier workoutNotifier, ActivityNotifiter activityNotifiter) async {
+  Future createActivity(WorkoutNotifier workoutNotifier, ActivityNotifiter activityNotifiter) async {
     Activity newActivity = Activity(
       workoutId: workoutNotifier.currentWorkout!.id!,
       name: _activityName,
@@ -36,7 +37,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     );
     await ActivityDatabase.instance.createActivity(workoutNotifier, activityNotifiter, newActivity);
     Navigator.pop(context);
-    await ActivityDatabase.instance.readAllActivitiesFromWorkout(activityNotifiter, workoutNotifier.currentWorkout!.id!);
   }
 
   Future openDialog(WorkoutNotifier workoutNotifier, ActivityNotifiter activityNotifiter) => showDialog(
@@ -79,12 +79,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             actions: [
               TextButton(
                 child: const Text('CREATE'),
-                onPressed: () {
+                onPressed: () async {
                   if (!_formKey.currentState!.validate()) {
                     return;
                   }
                   _formKey.currentState!.save();
-                  createActivity(workoutNotifier, activityNotifiter);
+                  await createActivity(workoutNotifier, activityNotifiter);
                 },
               ),
             ],
@@ -96,18 +96,36 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     ActivityNotifiter activityNotifiter = Provider.of<ActivityNotifiter>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(workoutNotifier.currentWorkout!.name),
-        actions: [
-          IconButton(
-            onPressed: () {
-              openDialog(workoutNotifier, activityNotifiter);
-            },
-            icon: const Icon(Icons.add),
-          )
-        ],
-      ),
-      body: ActivityListView(),
-    );
+        appBar: AppBar(
+          title: Text(workoutNotifier.currentWorkout!.name),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                await openDialog(workoutNotifier, activityNotifiter);
+              },
+              icon: const Icon(Icons.add),
+            )
+          ],
+        ),
+        body: Stack(
+          children: [
+            ActivityListView(),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+                child: ElevatedButton(
+                  child: Text('Ready to workout'),
+                  onPressed: activityNotifiter.activityList != null
+                      ? activityNotifiter.activityList!.isNotEmpty
+                          ? () => Navigator.of(context).push(MaterialPageRoute(builder: ((_) => const TimerScreen())))
+                          : null
+                      : null,
+                ),
+              ),
+            )
+          ],
+        ));
   }
 }

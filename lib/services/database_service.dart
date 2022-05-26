@@ -43,7 +43,6 @@ class WorkoutDatabase {
   // Create
   Future create(WorkoutNotifier workoutNotifier, Workout workout) async {
     final db = await instance.database;
-    print(db);
     final uid = await db.insert(tableWorkouts, workout.toJSON());
     readAllWorkouts(workoutNotifier);
   }
@@ -55,9 +54,9 @@ class WorkoutDatabase {
 
     final result = await db.query(tableWorkouts);
 
-    List<Workout> _workoutList = result.map((json) => Workout.fromJSON(json)).toList();
+    List<Workout> workoutList = result.map((json) => Workout.fromJSON(json)).toList();
 
-    workoutNotifier.setWorkoutList = _workoutList;
+    workoutNotifier.setWorkoutList = workoutList;
   }
 
   // Update
@@ -78,6 +77,7 @@ class WorkoutDatabase {
     );
 
     readAllWorkouts(workoutNotifier);
+    workoutNotifier.setCurrentWorkout = newWorkout;
   }
 
   // Delete
@@ -133,8 +133,10 @@ class ActivityDatabase {
     final db = await instance.database;
     final id = await db.insert(tableActivites, activity.toJSON());
 
-    await WorkoutDatabase.instance.updateWorkoutWithActivity(workoutNotifier, activityCount: 1, activityTime: activity.time);
-    readAllActivitiesFromWorkout(activityNotifiter, activity.workoutId);
+    await WorkoutDatabase.instance.updateWorkoutWithActivity(workoutNotifier, activityCount: 1, activityTime: activity.time).whenComplete(() {
+      WorkoutDatabase.instance.readAllWorkouts(workoutNotifier);
+    });
+    await readAllActivitiesFromWorkout(activityNotifiter, activity.workoutId);
   }
 
   // Read

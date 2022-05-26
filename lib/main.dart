@@ -22,6 +22,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<ActivityNotifiter>(
           create: (_) => ActivityNotifiter(),
         ),
+        ChangeNotifierProvider<SettingsNotifier>(
+          create: (_) => SettingsNotifier(),
+        )
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

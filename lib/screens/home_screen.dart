@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_timer_app/models/models.dart';
 import 'package:workout_timer_app/notifiers/notifiers.dart';
+import 'package:workout_timer_app/screens/screens.dart';
 import 'package:workout_timer_app/services/database_service.dart';
 import 'package:workout_timer_app/widgets/workout_list_view.dart';
 
@@ -20,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     WorkoutNotifier workoutNotifier = Provider.of<WorkoutNotifier>(context, listen: false);
-
+    SettingsNotifier settingsNotifier = Provider.of<SettingsNotifier>(context, listen: false);
     WorkoutDatabase.instance.readAllWorkouts(workoutNotifier);
   }
 
@@ -73,10 +74,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     WorkoutNotifier workoutNotifier = Provider.of<WorkoutNotifier>(context);
+    SettingsNotifier settingsNotifier = Provider.of<SettingsNotifier>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Workout Timer"),
+        title: (settingsNotifier.darkMode == null) ? const Text('Null') : Text('${settingsNotifier.darkMode}'),
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SettingsScreen())),
+          icon: const Icon(Icons.settings_outlined),
+        ),
         actions: [
           IconButton(
             onPressed: () {
