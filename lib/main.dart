@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:workout_timer_app/app.dart';
 import 'package:workout_timer_app/notifiers/notifiers.dart';
 
-import 'screens/screens.dart';
-
 void main() {
   runApp(const MyApp());
 }
