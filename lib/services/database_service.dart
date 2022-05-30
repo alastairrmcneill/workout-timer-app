@@ -129,7 +129,7 @@ class ActivityDatabase {
   }
 
   // Create
-  Future createActivity(WorkoutNotifier workoutNotifier, ActivityNotifiter activityNotifiter, Activity activity) async {
+  Future createActivity(WorkoutNotifier workoutNotifier, ActivityNotifier activityNotifiter, Activity activity) async {
     final db = await instance.database;
     final id = await db.insert(tableActivites, activity.toJSON());
 
@@ -141,7 +141,7 @@ class ActivityDatabase {
 
   // Read
 
-  Future readAllActivitiesFromWorkout(ActivityNotifiter activityNotifiter, int workoutId) async {
+  Future readAllActivitiesFromWorkout(ActivityNotifier activityNotifiter, int workoutId) async {
     final db = await instance.database;
 
     final result = await db.query(
@@ -162,7 +162,7 @@ class ActivityDatabase {
   // Update
 
   // Delete
-  Future deleteActivity(WorkoutNotifier workoutNotifier, ActivityNotifiter activityNotifiter, Activity activity) async {
+  Future deleteActivity(WorkoutNotifier workoutNotifier, ActivityNotifier activityNotifiter, Activity activity) async {
     final db = await instance.database;
 
     await db.delete(

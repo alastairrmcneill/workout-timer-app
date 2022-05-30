@@ -19,7 +19,7 @@ class WorkoutNotifier extends ChangeNotifier {
   }
 }
 
-class ActivityNotifiter extends ChangeNotifier {
+class ActivityNotifier extends ChangeNotifier {
   List<Activity>? _activityList;
   Activity? _currentActivity;
 
@@ -34,6 +34,46 @@ class ActivityNotifiter extends ChangeNotifier {
   set setCurrentActivity(Activity currentActivity) {
     _currentActivity = currentActivity;
     notifyListeners();
+  }
+}
+
+class TimerNotifier extends ChangeNotifier {
+  int? _stageTimeRemaining;
+  int? _totalTimeRemaining;
+  int? _currentStageIndex;
+  bool? _isRunning;
+
+  int? get stageTimeRemaining => _stageTimeRemaining;
+  int? get totalTimeRemaining => _totalTimeRemaining;
+  int? get currentStageIndex => _currentStageIndex;
+  bool? get isRunning => _isRunning;
+
+  set setStageTimeRemaining(int timeRemaining) {
+    _stageTimeRemaining = timeRemaining;
+    notifyListeners();
+  }
+
+  set setTotalTimeRemaining(int timeRemaining) {
+    _totalTimeRemaining = timeRemaining;
+    notifyListeners();
+  }
+
+  set setCurrentStageIndex(int currentStageIndex) {
+    _currentStageIndex = currentStageIndex;
+    notifyListeners();
+  }
+
+  set setIsRunning(bool isRunnning) {
+    //not working
+    _isRunning = isRunning;
+    notifyListeners();
+  }
+
+  resetAll() {
+    _stageTimeRemaining = null;
+    _totalTimeRemaining = null;
+    _currentStageIndex = null;
+    _isRunning = null;
   }
 }
 

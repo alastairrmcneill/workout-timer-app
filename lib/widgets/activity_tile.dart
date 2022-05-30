@@ -11,7 +11,7 @@ class ActivityTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WorkoutNotifier workoutNotifier = Provider.of<WorkoutNotifier>(context);
-    ActivityNotifiter activityNotifiter = Provider.of<ActivityNotifiter>(context);
+    ActivityNotifier activityNotifiter = Provider.of<ActivityNotifier>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Dismissible(

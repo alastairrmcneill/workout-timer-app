@@ -23,13 +23,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   void initState() {
     super.initState();
     WorkoutNotifier workoutNotifier = Provider.of<WorkoutNotifier>(context, listen: false);
-    ActivityNotifiter activityNotifiter = Provider.of<ActivityNotifiter>(context, listen: false);
+    ActivityNotifier activityNotifiter = Provider.of<ActivityNotifier>(context, listen: false);
 
     // read all activities for this workout
     ActivityDatabase.instance.readAllActivitiesFromWorkout(activityNotifiter, workoutNotifier.currentWorkout!.id!);
   }
 
-  Future createActivity(WorkoutNotifier workoutNotifier, ActivityNotifiter activityNotifiter) async {
+  Future createActivity(WorkoutNotifier workoutNotifier, ActivityNotifier activityNotifiter) async {
     Activity newActivity = Activity(
       workoutId: workoutNotifier.currentWorkout!.id!,
       name: _activityName,
@@ -39,7 +39,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     Navigator.pop(context);
   }
 
-  Future openDialog(WorkoutNotifier workoutNotifier, ActivityNotifiter activityNotifiter) => showDialog(
+  Future openDialog(WorkoutNotifier workoutNotifier, ActivityNotifier activityNotifiter) => showDialog(
       context: context,
       builder: (context) => AlertDialog(
             title: const Text('Activity Name'),
@@ -93,7 +93,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   @override
   Widget build(BuildContext context) {
     WorkoutNotifier workoutNotifier = Provider.of<WorkoutNotifier>(context);
-    ActivityNotifiter activityNotifiter = Provider.of<ActivityNotifiter>(context);
+    ActivityNotifier activityNotifiter = Provider.of<ActivityNotifier>(context);
 
     return Scaffold(
         appBar: AppBar(

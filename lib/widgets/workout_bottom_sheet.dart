@@ -10,11 +10,12 @@ class WorkoutBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DraggableScrollableController _dragableScrollController = DraggableScrollableController();
+    ActivityNotifier activityNotifiter = Provider.of<ActivityNotifier>(context);
+
     bool atTop = false;
-    ActivityNotifiter activityNotifiter = Provider.of<ActivityNotifiter>(context);
 
     return DraggableScrollableSheet(
-      controller: _dragableScrollController,
+      // controller: _dragableScrollController,
       snap: true,
       initialChildSize: 0.1,
       minChildSize: 0.1,
@@ -25,22 +26,22 @@ class WorkoutBottomSheet extends StatelessWidget {
           child: ListView(
             controller: scrollController,
             children: [
-              IconButton(
-                  onPressed: () {
-                    _dragableScrollController
-                        .animateTo(0.7,
-                            duration: Duration(
-                              milliseconds: 200,
-                            ),
-                            curve: Curves.linear)
-                        .whenComplete(() {
-                      atTop = true;
-                    });
-                  },
-                  icon: atTop ? Icon(Icons.arrow_downward) : Icon(Icons.arrow_upward)),
+              // IconButton(
+              //     onPressed: () {
+              //       _dragableScrollController
+              //           .animateTo(atTop ? 0.1 : 0.7,
+              //               duration: const Duration(
+              //                 milliseconds: 200,
+              //               ),
+              //               curve: Curves.linear)
+              //           .whenComplete(() {
+              //         atTop = !atTop;
+              //       });
+              //     },
+              //     icon: atTop ? const Icon(Icons.keyboard_double_arrow_down_rounded) : const Icon(Icons.keyboard_double_arrow_up_rounded)),
               ...activityNotifiter.activityList!.map((activity) {
                 return ListTile(
-                  title: const Text('activity.name'),
+                  title: Text('${activity.name}'),
                   subtitle: Text('${activity.time}s'),
                   trailing: IconButton(
                     icon: const Icon(Icons.play_arrow),

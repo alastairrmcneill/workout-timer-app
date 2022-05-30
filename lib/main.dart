@@ -18,11 +18,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<WorkoutNotifier>(
           create: (_) => WorkoutNotifier(),
         ),
-        ChangeNotifierProvider<ActivityNotifiter>(
-          create: (_) => ActivityNotifiter(),
+        ChangeNotifierProvider<ActivityNotifier>(
+          create: (_) => ActivityNotifier(),
         ),
         ChangeNotifierProvider<SettingsNotifier>(
           create: (_) => SettingsNotifier(),
+        ),
+        ChangeNotifierProvider<TimerNotifier>(
+          create: (_) => TimerNotifier(),
         )
       ],
       child: const App(),

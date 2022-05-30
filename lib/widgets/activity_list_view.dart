@@ -9,7 +9,7 @@ class ActivityListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ActivityNotifiter activityNotifiter = Provider.of<ActivityNotifiter>(context);
+    ActivityNotifier activityNotifiter = Provider.of<ActivityNotifier>(context);
     return activityNotifiter.activityList != null
         ? activityNotifiter.activityList!.isNotEmpty
             ? SingleChildScrollView(

@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_timer_app/notifiers/notifiers.dart';
 import 'package:workout_timer_app/models/models.dart';
+import 'package:workout_timer_app/services/services.dart';
 import 'package:workout_timer_app/widgets/workout_bottom_sheet.dart';
 
 class TimerScreen extends StatefulWidget {
@@ -14,10 +16,31 @@ class TimerScreen extends StatefulWidget {
 }
 
 class _TimerScreenState extends State<TimerScreen> {
+  late MultiStageTimer multiStageTimer;
+  List<int> stages = [10];
+  @override
+  void initState() {
+    super.initState();
+    ActivityNotifier activityNotifiter = Provider.of<ActivityNotifier>(context, listen: false);
+    TimerNotifier timerNotifier = Provider.of<TimerNotifier>(context, listen: false);
+
+    for (Activity activity in activityNotifiter.activityList!) {
+      stages.add(activity.time);
+    }
+
+    multiStageTimer = MultiStageTimer(timerNotifier: timerNotifier, stages: stages, currentIndex: 0);
+  }
+
+  @override
+  void dispose() {
+    multiStageTimer.reset();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    ActivityNotifiter activityNotifiter = Provider.of<ActivityNotifiter>(context);
-
+    ActivityNotifier activityNotifiter = Provider.of<ActivityNotifier>(context);
+    TimerNotifier timerNotifier = Provider.of<TimerNotifier>(context);
     return Scaffold(
       body: SafeArea(
         bottom: false,
@@ -26,7 +49,7 @@ class _TimerScreenState extends State<TimerScreen> {
             Positioned(
               top: 10,
               right: 10,
-              child: Text('Remaining: 00:22'),
+              child: timerNotifier.totalTimeRemaining == null ? Text('Remaining: ${multiStageTimer.totalTime}') : Text('Remaining: ${timerNotifier.totalTimeRemaining!}'),
             ),
             Center(
               child: Column(
@@ -40,6 +63,7 @@ class _TimerScreenState extends State<TimerScreen> {
                     height: 250,
                     width: 250,
                     color: Colors.red,
+                    child: timerNotifier.stageTimeRemaining == null ? const Text('10') : Text('${timerNotifier.stageTimeRemaining}'),
                   ),
                   SizedBox(height: 20),
                   Row(
@@ -48,16 +72,35 @@ class _TimerScreenState extends State<TimerScreen> {
                       SizedBox(
                         width: 100,
                         child: ElevatedButton(
-                          child: Text('Skip'),
-                          onPressed: () {},
+                          child: timerNotifier.isRunning == null
+                              ? Text('Play')
+                              : timerNotifier.isRunning!
+                                  ? Text('Pause')
+                                  : Text('Play'),
+                          onPressed: () {
+                            if (timerNotifier.isRunning == null) {
+                              multiStageTimer.start();
+                            } else {
+                              if (timerNotifier.isRunning!) {
+                                multiStageTimer.cancel();
+                              } else {
+                                multiStageTimer.start();
+                              }
+                            }
+                            ;
+                          },
                         ),
                       ),
                       const SizedBox(width: 30),
                       SizedBox(
                         width: 100,
                         child: ElevatedButton(
-                          child: Text('Go Back'),
-                          onPressed: () => Navigator.pop(context),
+                          child: Text('End'),
+                          onPressed: () {
+                            multiStageTimer.cancel();
+
+                            Navigator.pop(context);
+                          },
                         ),
                       ),
                     ],
