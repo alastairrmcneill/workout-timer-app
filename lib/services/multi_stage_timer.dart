@@ -10,6 +10,7 @@ class MultiStageTimer {
   late Timer timer = Timer(Duration(seconds: 1), (() {}));
   late int currentStage;
   late int totalTime;
+  bool isRunning = false;
 
   MultiStageTimer({required this.timerNotifier, required this.stages, required this.currentIndex}) {
     currentStage = stages[currentIndex];
@@ -18,7 +19,7 @@ class MultiStageTimer {
 
   // Start timer
   start() {
-    timerNotifier.setIsRunning = true;
+    isRunning = true;
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (currentStage > 0) {
         currentStage--;
@@ -37,13 +38,15 @@ class MultiStageTimer {
   }
 
   // Pause timer
-  pause() {}
+  pause() {
+    isRunning = false;
+    timer.cancel();
+  }
 
   // Cancel timer
   cancel() {
     timer.cancel();
-
-    timerNotifier.setIsRunning = false;
+    isRunning = false;
   }
 
   // Skip one stage
@@ -70,8 +73,10 @@ class MultiStageTimer {
   }
 
   reset() {
+    isRunning = false;
     currentIndex = 0;
     currentStage = stages[currentIndex];
+    timer.cancel();
 
     timerNotifier.resetAll();
   }

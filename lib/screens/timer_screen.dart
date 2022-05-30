@@ -72,22 +72,14 @@ class _TimerScreenState extends State<TimerScreen> {
                       SizedBox(
                         width: 100,
                         child: ElevatedButton(
-                          child: timerNotifier.isRunning == null
-                              ? Text('Play')
-                              : timerNotifier.isRunning!
-                                  ? Text('Pause')
-                                  : Text('Play'),
+                          child: !multiStageTimer.isRunning ? Text('Play') : Text('Pause'),
                           onPressed: () {
-                            if (timerNotifier.isRunning == null) {
+                            if (!multiStageTimer.isRunning) {
                               multiStageTimer.start();
                             } else {
-                              if (timerNotifier.isRunning!) {
-                                multiStageTimer.cancel();
-                              } else {
-                                multiStageTimer.start();
-                              }
+                              multiStageTimer.pause();
+                              setState(() {});
                             }
-                            ;
                           },
                         ),
                       ),
@@ -97,7 +89,7 @@ class _TimerScreenState extends State<TimerScreen> {
                         child: ElevatedButton(
                           child: Text('End'),
                           onPressed: () {
-                            multiStageTimer.cancel();
+                            multiStageTimer.reset();
 
                             Navigator.pop(context);
                           },
