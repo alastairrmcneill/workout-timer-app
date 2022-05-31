@@ -25,6 +25,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: Column(
         children: [
+          Divider(),
           ListTile(
             title: const Text('Dark Mode'),
             trailing: Switch(
@@ -36,6 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
             ),
           ),
+          Divider(),
           ListTile(
             title: const Text('Play audio'),
             subtitle: const Text('Play 3 beeps to signal end of activity'),
@@ -47,6 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   });
                 }),
           ),
+          Divider(),
         ],
       ),
     );

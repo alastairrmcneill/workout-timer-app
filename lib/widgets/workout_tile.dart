@@ -34,17 +34,35 @@ class WorkoutTile extends StatelessWidget {
           },
           direction: DismissDirection.endToStart,
           child: Container(
-            width: double.infinity,
-            height: 100,
-            color: Colors.blue,
-            child: Column(
-              children: [
-                Text(workout.name),
-                Text(workout.activityCount.toString()),
-                Text(workout.activityTime.toString()),
-              ],
-            ),
-          ),
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${workout.name}',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Activities: ${workout.activityCount}',
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                      Text(
+                        'Time: ${workout.activityTime}',
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                    ],
+                  ),
+                ],
+              )),
         ),
       ),
     );
