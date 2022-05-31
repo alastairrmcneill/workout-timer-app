@@ -116,7 +116,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               child: Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-                child: ElevatedButton(
+                child: OutlinedButton(
                   child: Text('Ready to workout'),
                   onPressed: activityNotifiter.activityList != null
                       ? activityNotifiter.activityList!.isNotEmpty

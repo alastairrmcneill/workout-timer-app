@@ -9,6 +9,26 @@ class WorkoutTile extends StatelessWidget {
   final Workout workout;
   const WorkoutTile({Key? key, required this.workout}) : super(key: key);
 
+  String buildTime(int value) {
+    int h, m, s;
+
+    h = value ~/ 3600;
+
+    m = ((value - h * 3600)) ~/ 60;
+
+    s = value - (h * 3600) - (m * 60);
+
+    String hourLeft = h.toString().length < 2 ? "0" + h.toString() : h.toString();
+
+    String minuteLeft = m.toString().length < 2 ? "0" + m.toString() : m.toString();
+
+    String secondsLeft = s.toString().length < 2 ? "0" + s.toString() : s.toString();
+
+    String result = "${minuteLeft}m ${secondsLeft}s";
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     WorkoutNotifier workoutNotifier = Provider.of<WorkoutNotifier>(context);
@@ -51,13 +71,33 @@ class WorkoutTile extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Activities: ${workout.activityCount}',
-                        style: Theme.of(context).textTheme.headline5,
+                      RichText(
+                        text: TextSpan(
+                          style: Theme.of(context).textTheme.headline5,
+                          children: [
+                            TextSpan(text: 'Activities: '),
+                            TextSpan(
+                              text: '${workout.activityCount}',
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      Text(
-                        'Time: ${workout.activityTime}',
-                        style: Theme.of(context).textTheme.headline5,
+                      RichText(
+                        text: TextSpan(
+                          style: Theme.of(context).textTheme.headline5,
+                          children: [
+                            TextSpan(text: 'Time: '),
+                            TextSpan(
+                              text: buildTime(workout.activityTime),
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

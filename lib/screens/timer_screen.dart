@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ffi';
+import 'package:collection/collection.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,25 @@ class _TimerScreenState extends State<TimerScreen> {
     super.dispose();
   }
 
+  String buildTime(int value) {
+    int h, m, s;
+    h = value ~/ 3600;
+
+    m = ((value - h * 3600)) ~/ 60;
+
+    s = value - (h * 3600) - (m * 60);
+
+    String hourLeft = h.toString().length < 2 ? "0" + h.toString() : h.toString();
+
+    String minuteLeft = m.toString().length < 2 ? "0" + m.toString() : m.toString();
+
+    String secondsLeft = s.toString().length < 2 ? "0" + s.toString() : s.toString();
+
+    String result = "$minuteLeft:$secondsLeft";
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     ActivityNotifier activityNotifiter = Provider.of<ActivityNotifier>(context);
@@ -50,15 +70,20 @@ class _TimerScreenState extends State<TimerScreen> {
             Positioned(
               top: 10,
               right: 10,
-              child: timerNotifier.totalTimeRemaining == null
-                  ? Text(
-                      'Remaining: ${multiStageTimer.totalTime}s',
-                      style: Theme.of(context).textTheme.headline6,
-                    )
-                  : Text(
-                      'Remaining: ${timerNotifier.totalTimeRemaining!}s',
-                      style: Theme.of(context).textTheme.headline6,
+              child: RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.headline6,
+                  children: [
+                    TextSpan(text: 'Remaining: '),
+                    TextSpan(
+                      text: buildTime(timerNotifier.totalTimeRemaining ?? multiStageTimer.stages.sum),
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
+                  ],
+                ),
+              ),
             ),
             Center(
               child: Column(
@@ -67,6 +92,11 @@ class _TimerScreenState extends State<TimerScreen> {
                 children: [
                   Container(
                     height: MediaQuery.of(context).size.height / 2 - 250,
+                    child: Center(
+                        child: Text(
+                      '\nHere',
+                      style: Theme.of(context).textTheme.headline4,
+                    )),
                   ),
                   SizedBox(
                     height: 250,
@@ -82,9 +112,10 @@ class _TimerScreenState extends State<TimerScreen> {
                           backgroundColor: Theme.of(context).highlightColor,
                         ),
                         Center(
-                          child: timerNotifier.stageTimeRemaining == null
-                              ? Text('10', style: Theme.of(context).textTheme.headline3)
-                              : Text('${timerNotifier.stageTimeRemaining}', style: Theme.of(context).textTheme.headline3),
+                          child: Text(
+                            '${buildTime(timerNotifier.stageTimeRemaining ?? 10)}',
+                            style: Theme.of(context).textTheme.headline3,
+                          ),
                         ),
                       ],
                     ),
@@ -93,31 +124,25 @@ class _TimerScreenState extends State<TimerScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        width: 100,
-                        child: ElevatedButton(
-                          child: !multiStageTimer.isRunning ? Text('Play') : Text('Pause'),
-                          onPressed: () {
-                            if (!multiStageTimer.isRunning) {
-                              multiStageTimer.start();
-                            } else {
-                              multiStageTimer.pause();
-                              setState(() {});
-                            }
-                          },
-                        ),
+                      OutlinedButton(
+                        child: !multiStageTimer.isRunning ? Text('Play') : Text('Pause'),
+                        onPressed: () {
+                          if (!multiStageTimer.isRunning) {
+                            multiStageTimer.start();
+                          } else {
+                            multiStageTimer.pause();
+                            setState(() {});
+                          }
+                        },
                       ),
                       const SizedBox(width: 30),
-                      SizedBox(
-                        width: 100,
-                        child: ElevatedButton(
-                          child: Text('End'),
-                          onPressed: () {
-                            multiStageTimer.reset();
+                      OutlinedButton(
+                        child: Text('End'),
+                        onPressed: () {
+                          multiStageTimer.reset();
 
-                            Navigator.pop(context);
-                          },
-                        ),
+                          Navigator.pop(context);
+                        },
                       ),
                     ],
                   ),
