@@ -41,6 +41,7 @@ class _TimerScreenState extends State<TimerScreen> {
   Widget build(BuildContext context) {
     ActivityNotifier activityNotifiter = Provider.of<ActivityNotifier>(context);
     TimerNotifier timerNotifier = Provider.of<TimerNotifier>(context);
+
     return Scaffold(
       body: SafeArea(
         bottom: false,
@@ -49,7 +50,15 @@ class _TimerScreenState extends State<TimerScreen> {
             Positioned(
               top: 10,
               right: 10,
-              child: timerNotifier.totalTimeRemaining == null ? Text('Remaining: ${multiStageTimer.totalTime}') : Text('Remaining: ${timerNotifier.totalTimeRemaining!}'),
+              child: timerNotifier.totalTimeRemaining == null
+                  ? Text(
+                      'Remaining: ${multiStageTimer.totalTime}s',
+                      style: Theme.of(context).textTheme.headline6,
+                    )
+                  : Text(
+                      'Remaining: ${timerNotifier.totalTimeRemaining!}s',
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
             ),
             Center(
               child: Column(
@@ -59,13 +68,28 @@ class _TimerScreenState extends State<TimerScreen> {
                   Container(
                     height: MediaQuery.of(context).size.height / 2 - 250,
                   ),
-                  Container(
+                  SizedBox(
                     height: 250,
                     width: 250,
-                    color: Colors.red,
-                    child: timerNotifier.stageTimeRemaining == null ? const Text('10') : Text('${timerNotifier.stageTimeRemaining}'),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        CircularProgressIndicator(
+                          value: (timerNotifier.stageTimeRemaining == null || timerNotifier.currentStageIndex == null)
+                              ? 1
+                              : timerNotifier.stageTimeRemaining! / multiStageTimer.stages[timerNotifier.currentStageIndex!],
+                          strokeWidth: 6,
+                          backgroundColor: Theme.of(context).highlightColor,
+                        ),
+                        Center(
+                          child: timerNotifier.stageTimeRemaining == null
+                              ? Text('10', style: Theme.of(context).textTheme.headline3)
+                              : Text('${timerNotifier.stageTimeRemaining}', style: Theme.of(context).textTheme.headline3),
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

@@ -49,6 +49,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextFormField(
+                    textCapitalization: TextCapitalization.words,
                     autofocus: true,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {

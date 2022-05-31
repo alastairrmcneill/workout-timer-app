@@ -19,11 +19,22 @@ class WorkoutListView extends StatelessWidget {
                   }).toList(),
                 ),
               )
-            : const Center(
-                child: Text("Get started by clicking the + to add a workout"),
+            : Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Center(
+                  child: Text(
+                    "Get started by clicking the + to add a workout",
+                    style: Theme.of(context).textTheme.headline5,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               )
-        : const Center(
-            child: Text('No workouts'),
+        : Center(
+            child: Text(
+              'No workouts',
+              style: Theme.of(context).textTheme.headline5,
+              textAlign: TextAlign.center,
+            ),
           );
   }
 }

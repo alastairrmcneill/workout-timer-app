@@ -43,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
           content: Form(
             key: _formKey,
             child: TextFormField(
+              textCapitalization: TextCapitalization.words,
               autofocus: true,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {

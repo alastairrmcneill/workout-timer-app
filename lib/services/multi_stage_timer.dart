@@ -20,6 +20,7 @@ class MultiStageTimer {
   // Start timer
   start() {
     isRunning = true;
+    timerNotifier.setCurrentStageIndex = currentIndex;
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (currentStage > 0) {
         currentStage--;

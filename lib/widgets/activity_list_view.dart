@@ -19,11 +19,22 @@ class ActivityListView extends StatelessWidget {
                   }).toList(),
                 ),
               )
-            : const Center(
-                child: Text("Get started by clicking the + to add an activity"),
+            : Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Center(
+                  child: Text(
+                    "Get started by clicking the + to add an activity",
+                    style: Theme.of(context).textTheme.headline5,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               )
-        : const Center(
-            child: Text('No Activities'),
+        : Center(
+            child: Text(
+              'No Activities',
+              style: Theme.of(context).textTheme.headline5,
+              textAlign: TextAlign.center,
+            ),
           );
   }
 }

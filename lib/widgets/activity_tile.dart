@@ -30,12 +30,31 @@ class ActivityTile extends StatelessWidget {
         direction: DismissDirection.endToStart,
         child: Container(
           width: double.infinity,
-          height: 100,
-          color: Colors.green,
-          child: Column(
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          child: Row(
             children: [
-              Text(activity.name),
-              Text(activity.time.toString()),
+              Expanded(
+                flex: 1,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      activity.name,
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      'Time: ${activity.time}s',
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                  ],
+                ),
+              ),
+              Switch(value: true, onChanged: (newValue) {})
             ],
           ),
         ),
