@@ -26,11 +26,7 @@ class _AppState extends State<App> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Workout Timer',
-      theme: (settingsNotifier.darkMode == null)
-          ? MyThemes.getLightTheme()
-          : (settingsNotifier.darkMode!)
-              ? MyThemes.getDarkTheme()
-              : MyThemes.getLightTheme(),
+      theme: (settingsNotifier.darkMode) ? MyThemes.getDarkTheme() : MyThemes.getLightTheme(),
       home: const HomeScreen(),
     );
   }

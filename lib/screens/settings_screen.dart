@@ -29,10 +29,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTile(
             title: const Text('Dark Mode'),
             trailing: Switch(
-              value: (settingsNotifier.darkMode == null) ? false : settingsNotifier.darkMode!,
+              value: settingsNotifier.darkMode,
               onChanged: (value) {
                 setState(() {
-                  settingsNotifier.setDarkMode = value;
+                  settingsNotifier.setDarkMode(value);
                 });
               },
             ),
@@ -42,10 +42,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: const Text('Play audio'),
             subtitle: const Text('Play 3 beeps to signal end of activity'),
             trailing: Switch(
-                value: (settingsNotifier.audioMode == null) ? true : settingsNotifier.audioMode!,
+                value: settingsNotifier.audioMode,
                 onChanged: (value) {
                   setState(() {
-                    settingsNotifier.setAudioMode = value;
+                    settingsNotifier.setAudioMode(value);
                   });
                 }),
           ),

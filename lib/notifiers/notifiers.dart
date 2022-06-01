@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workout_timer_app/models/models.dart';
 
 class WorkoutNotifier extends ChangeNotifier {
@@ -78,18 +79,28 @@ class TimerNotifier extends ChangeNotifier {
 }
 
 class SettingsNotifier extends ChangeNotifier {
-  bool? _darkMode;
-  bool? _audioMode;
+  late SharedPreferences prefs;
+  late bool _darkMode;
+  late bool _audioMode;
 
-  bool? get darkMode => _darkMode;
-  bool? get audioMode => _audioMode;
+  SettingsNotifier({required bool darkMode, required bool audioMode}) {
+    _darkMode = darkMode;
+    _audioMode = audioMode;
+  }
 
-  set setDarkMode(bool darkMode) {
+  bool get darkMode => _darkMode;
+  bool get audioMode => _audioMode;
+
+  Future<void> setDarkMode(bool darkMode) async {
+    prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('darkMode', darkMode);
     _darkMode = darkMode;
     notifyListeners();
   }
 
-  set setAudioMode(bool audioMode) {
+  Future<void> setAudioMode(bool audioMode) async {
+    prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('audioMode', audioMode);
     _audioMode = audioMode;
     notifyListeners();
   }
