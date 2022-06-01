@@ -11,6 +11,7 @@ class MultiStageTimer {
   late int currentStage;
   late int totalTime;
   bool isRunning = false;
+  bool isFinished = false;
 
   MultiStageTimer({required this.timerNotifier, required this.stages, required this.currentIndex}) {
     currentStage = stages[currentIndex];
@@ -29,6 +30,7 @@ class MultiStageTimer {
           currentIndex++;
           skipToStage(currentIndex);
         } else {
+          isFinished = true;
           cancel();
         }
       }

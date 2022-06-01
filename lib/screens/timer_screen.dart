@@ -57,6 +57,16 @@ class _TimerScreenState extends State<TimerScreen> {
     return result;
   }
 
+  String buildActivityTitle(ActivityNotifier activityNotifier, TimerNotifier timerNotifier) {
+    if (timerNotifier.currentStageIndex == null) {
+      return 'Get Ready!';
+    } else if (timerNotifier.currentStageIndex! == 0) {
+      return 'Get Ready!';
+    } else {
+      return activityNotifier.activityList![timerNotifier.currentStageIndex! - 1].name;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ActivityNotifier activityNotifiter = Provider.of<ActivityNotifier>(context);
@@ -94,7 +104,7 @@ class _TimerScreenState extends State<TimerScreen> {
                     height: MediaQuery.of(context).size.height / 2 - 250,
                     child: Center(
                         child: Text(
-                      '\nHere',
+                      '\n${buildActivityTitle(activityNotifiter, timerNotifier)}',
                       style: Theme.of(context).textTheme.headline4,
                     )),
                   ),
@@ -125,10 +135,19 @@ class _TimerScreenState extends State<TimerScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       OutlinedButton(
-                        child: !multiStageTimer.isRunning ? Text('Play') : Text('Pause'),
+                        child: !multiStageTimer.isRunning
+                            ? !multiStageTimer.isFinished
+                                ? Text('Play')
+                                : Text('Restart')
+                            : Text('Pause'),
                         onPressed: () {
                           if (!multiStageTimer.isRunning) {
-                            multiStageTimer.start();
+                            if (!multiStageTimer.isFinished) {
+                              multiStageTimer.start();
+                            } else {
+                              multiStageTimer.reset();
+                              multiStageTimer.start();
+                            }
                           } else {
                             multiStageTimer.pause();
                             setState(() {});
