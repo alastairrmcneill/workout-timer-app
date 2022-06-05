@@ -47,14 +47,23 @@ class ActivityTile extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline4,
                     ),
                     const SizedBox(height: 15),
-                    Text(
-                      'Time: ${activity.time}s',
-                      style: Theme.of(context).textTheme.headline5,
+                    RichText(
+                      text: TextSpan(
+                        style: Theme.of(context).textTheme.headline5,
+                        children: [
+                          TextSpan(text: 'Time: '),
+                          TextSpan(
+                            text: '${activity.time}s',
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-              Switch(value: true, onChanged: (newValue) {})
             ],
           ),
         ),

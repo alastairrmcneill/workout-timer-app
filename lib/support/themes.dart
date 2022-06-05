@@ -20,6 +20,7 @@ class MyThemes {
           color: accentColor,
         ),
       ),
+      iconTheme: IconThemeData(color: accentColor),
       scaffoldBackgroundColor: backgroundColor,
       listTileTheme: ListTileThemeData(
         textColor: accentColor,
@@ -79,6 +80,12 @@ class MyThemes {
           fontFamily: 'Open Sans',
           fontWeight: FontWeight.w400,
           color: accentColor,
+        ),
+        bodyText1: TextStyle(
+          fontSize: 24,
+          fontFamily: 'Open Sans',
+          fontWeight: FontWeight.w400,
+          color: Color.fromARGB(255, 63, 77, 104),
         ),
       ),
     );

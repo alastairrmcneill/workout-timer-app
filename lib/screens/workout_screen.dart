@@ -42,7 +42,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   Future openDialog(WorkoutNotifier workoutNotifier, ActivityNotifier activityNotifiter) => showDialog(
       context: context,
       builder: (context) => AlertDialog(
-            title: const Text('Activity Name'),
+            title: Text(
+              'Activity Name',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
             content: Form(
               key: _formKey,
               child: Column(
@@ -108,22 +111,36 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             )
           ],
         ),
-        body: Stack(
+        body: Column(
           children: [
-            ActivityListView(),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-                child: OutlinedButton(
-                  child: Text('Ready to workout'),
-                  onPressed: activityNotifiter.activityList != null
-                      ? activityNotifiter.activityList!.isNotEmpty
-                          ? () => Navigator.of(context).push(MaterialPageRoute(builder: ((_) => const TimerScreen())))
-                          : null
-                      : null,
+            Expanded(
+              flex: 1,
+              child: ShaderMask(
+                shaderCallback: (Rect rect) {
+                  return LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.transparent, Theme.of(context).backgroundColor],
+                    stops: [0.9, 1.0],
+                  ).createShader(rect);
+                },
+                blendMode: BlendMode.dstOut,
+                child: ActivityListView(),
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.only(left: 20, right: 20, bottom: 50),
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  onSurface: Colors.grey,
                 ),
+                child: Text('Ready to workout'),
+                onPressed: activityNotifiter.activityList != null
+                    ? activityNotifiter.activityList!.isNotEmpty
+                        ? () => Navigator.of(context).push(MaterialPageRoute(builder: ((_) => const TimerScreen())))
+                        : null
+                    : null,
               ),
             )
           ],

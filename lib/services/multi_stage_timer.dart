@@ -28,7 +28,7 @@ class MultiStageTimer {
       } else {
         if (currentIndex < stages.length - 1) {
           currentIndex++;
-          skipToStage(currentIndex);
+          _skipToStage(currentIndex);
         } else {
           isFinished = true;
           cancel();
@@ -53,10 +53,17 @@ class MultiStageTimer {
   }
 
   // Skip one stage
-  skipStage() {}
+  skipToStage(int stageIndex) {
+    pause();
+    currentIndex = stageIndex;
+    currentStage = stages[currentIndex];
+    timerNotifier.setCurrentStageIndex = currentIndex;
+    timerNotifier.setStageTimeRemaining = currentStage;
+    timerNotifier.setTotalTimeRemaining = _timeRemaining();
+  }
 
   //Skip to specific stage
-  skipToStage(int stageIndex) {
+  _skipToStage(int stageIndex) {
     currentIndex = stageIndex;
     currentStage = stages[currentIndex];
     timerNotifier.setCurrentStageIndex = currentIndex;

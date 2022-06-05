@@ -39,7 +39,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Future openDialog(WorkoutNotifier workoutNotifier) => showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Workout Name'),
+          title: Text(
+            'Workout Name',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
           content: Form(
             key: _formKey,
             child: TextFormField(
@@ -92,7 +95,25 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: const WorkoutListView(),
+      body: Column(
+        children: [
+          Expanded(
+            flex: 1,
+            child: ShaderMask(
+              shaderCallback: (Rect rect) {
+                return LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.transparent, Theme.of(context).backgroundColor],
+                  stops: [0.85, 0.95],
+                ).createShader(rect);
+              },
+              blendMode: BlendMode.dstOut,
+              child: WorkoutListView(),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

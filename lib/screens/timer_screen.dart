@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:workout_timer_app/notifiers/notifiers.dart';
 import 'package:workout_timer_app/models/models.dart';
 import 'package:workout_timer_app/services/services.dart';
-import 'package:workout_timer_app/widgets/workout_bottom_sheet.dart';
+import 'package:workout_timer_app/widgets/scrollable_activity_list.dart';
 
 class TimerScreen extends StatefulWidget {
   const TimerScreen({Key? key}) : super(key: key);
@@ -63,7 +63,11 @@ class _TimerScreenState extends State<TimerScreen> {
     } else if (timerNotifier.currentStageIndex! == 0) {
       return 'Get Ready!';
     } else {
-      return activityNotifier.activityList![timerNotifier.currentStageIndex! - 1].name;
+      if (multiStageTimer.isFinished) {
+        return 'Done!';
+      } else {
+        return activityNotifier.activityList![timerNotifier.currentStageIndex! - 1].name;
+      }
     }
   }
 
@@ -165,10 +169,11 @@ class _TimerScreenState extends State<TimerScreen> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 30),
+                  ScrollableActivityList(timer: multiStageTimer),
                 ],
               ),
             ),
-            WorkoutBottomSheet(),
           ],
         ),
       ),

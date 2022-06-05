@@ -41,7 +41,7 @@ class ActivityNotifier extends ChangeNotifier {
 class TimerNotifier extends ChangeNotifier {
   int? _stageTimeRemaining;
   int? _totalTimeRemaining;
-  int? _currentStageIndex;
+  int? _currentStageIndex = 0;
   bool? _isRunning;
 
   int? get stageTimeRemaining => _stageTimeRemaining;
@@ -73,7 +73,7 @@ class TimerNotifier extends ChangeNotifier {
   resetAll() {
     _stageTimeRemaining = null;
     _totalTimeRemaining = null;
-    _currentStageIndex = null;
+    _currentStageIndex = 0;
     _isRunning = null;
   }
 }
