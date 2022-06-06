@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_beep/flutter_beep.dart';
 import 'package:workout_timer_app/notifiers/notifiers.dart';
 
 class MultiStageTimer {
   final TimerNotifier timerNotifier;
+  final SettingsNotifier settingsNotifier;
   final List<int> stages;
   late int currentIndex;
   late Timer timer = Timer(Duration(seconds: 1), (() {}));
@@ -13,7 +16,7 @@ class MultiStageTimer {
   bool isRunning = false;
   bool isFinished = false;
 
-  MultiStageTimer({required this.timerNotifier, required this.stages, required this.currentIndex}) {
+  MultiStageTimer({required this.timerNotifier, required this.settingsNotifier, required this.stages, required this.currentIndex}) {
     currentStage = stages[currentIndex];
     totalTime = stages.sum;
   }
@@ -25,6 +28,11 @@ class MultiStageTimer {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (currentStage > 0) {
         currentStage--;
+        if (currentStage <= 3) {
+          if (settingsNotifier.audioMode) {
+            FlutterBeep.beep();
+          }
+        }
       } else {
         if (currentIndex < stages.length - 1) {
           currentIndex++;
@@ -84,6 +92,7 @@ class MultiStageTimer {
 
   reset() {
     isRunning = false;
+    isFinished = false;
     currentIndex = 0;
     currentStage = stages[currentIndex];
     timer.cancel();

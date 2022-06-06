@@ -24,12 +24,13 @@ class _TimerScreenState extends State<TimerScreen> {
     super.initState();
     ActivityNotifier activityNotifiter = Provider.of<ActivityNotifier>(context, listen: false);
     TimerNotifier timerNotifier = Provider.of<TimerNotifier>(context, listen: false);
+    SettingsNotifier settingsNotifier = Provider.of<SettingsNotifier>(context, listen: false);
 
     for (Activity activity in activityNotifiter.activityList!) {
       stages.add(activity.time);
     }
 
-    multiStageTimer = MultiStageTimer(timerNotifier: timerNotifier, stages: stages, currentIndex: 0);
+    multiStageTimer = MultiStageTimer(timerNotifier: timerNotifier, settingsNotifier: settingsNotifier, stages: stages, currentIndex: 0);
   }
 
   @override

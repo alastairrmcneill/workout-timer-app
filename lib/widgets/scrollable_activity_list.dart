@@ -34,7 +34,7 @@ class _ScrollableActivityListState extends State<ScrollableActivityList> {
             padding: const EdgeInsets.only(bottom: 2),
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(
-                (index >= timerNotifier.currentStageIndex! - 1) ? Colors.transparent : Colors.grey.withOpacity(0.8),
+                (index >= timerNotifier.currentStageIndex! - 1 && !widget.timer.isFinished) ? Colors.transparent : Colors.grey.withOpacity(0.8),
                 BlendMode.saturation,
               ),
               child: Container(

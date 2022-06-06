@@ -46,6 +46,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onChanged: (value) {
                   setState(() {
                     settingsNotifier.setAudioMode(value);
+                    print(settingsNotifier.audioMode);
                   });
                 }),
           ),
