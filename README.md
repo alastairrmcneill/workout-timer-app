@@ -1,16 +1,7 @@
-# workout_timer_app
+# Workout Timer App
 
-A new Flutter project.
+When it comes to timed workouts, I find them annoying. If I do a jump rope workout, I don't want to have to keep looking at my timer, remember what time I started at, or stop skipping to reset the timer. I want to be able to program in all the exercises and the timer will count down through them all. This is what I've made with this Workout Timer app.
 
-## Getting Started
+## Technology
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This project is made using Dart and the Flutter framework. SQLite was used to store the workouts and activities for next time.
