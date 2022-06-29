@@ -5,3 +5,6 @@ When it comes to timed workouts, I find them annoying. If I do a jump rope worko
 ## Technology
 
 This project is made using Dart and the Flutter framework. SQLite was used to store the workouts and activities for next time.
+
+## Links
+Play Store - https://play.google.com/store/apps/details?id=com.alastairmcneill.workouttimer
